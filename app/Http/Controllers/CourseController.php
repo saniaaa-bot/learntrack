@@ -35,4 +35,10 @@ class CourseController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Course created successfully!');
     }
+
+    public function show(Course $course)
+    {
+        $course->load('questions');
+        return view('courses.show', compact('course'));
+    }
 }

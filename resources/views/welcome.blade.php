@@ -79,15 +79,25 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @forelse($courses as $course)
-                <div class="bg-ed-card rounded-2xl p-8 border border-gray-800 hover:border-ed-cyan/50 transition-all duration-300 group">
-                    <div class="w-12 h-12 bg-ed-dark rounded-xl flex items-center justify-center mb-6 text-ed-cyan border border-gray-700 group-hover:scale-110 transition-transform">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                <div class="bg-ed-card rounded-2xl p-8 border border-gray-800 hover:border-ed-cyan/50 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-ed-dark rounded-xl flex items-center justify-center mb-6 text-ed-cyan border border-gray-700 group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-heading font-bold text-white mb-3">{{ $course->title }}</h4>
+                        <p class="text-gray-400 text-sm mb-6 line-clamp-3">{{ $course->description }}</p>
                     </div>
-                    <h4 class="text-xl font-heading font-bold text-white mb-3">{{ $course->title }}</h4>
-                    <p class="text-gray-400 text-sm mb-6 line-clamp-3">{{ $course->description }}</p>
-                    <a href="#" class="inline-flex items-center text-ed-cyan font-bold text-sm hover:text-white transition-colors">
-                        Start Learning <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
+                    
+                    <!-- Smart Link: Redirect to course if logged in, otherwise to login -->
+                    @auth
+                        <a href="{{ route('courses.show', $course->id) }}" class="inline-flex items-center text-ed-cyan font-bold text-sm hover:text-white transition-colors mt-4">
+                            Start Learning <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="inline-flex items-center text-ed-cyan font-bold text-sm hover:text-white transition-colors mt-4">
+                            Start Learning <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    @endauth
                 </div>
             @empty
                 <div class="col-span-full py-12 text-center text-gray-500">
