@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }, colors: { ed: { dark: '#0B1120', card: '#151E31', cyan: '#06B6D4' } } } }
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], heading: ['Outfit', 'sans-serif'] }, colors: { ed: { dark: '#0B1120', card: '#151E31', cyan: '#06B6D4', green: '#10B981' } } } }
         }
     </script>
 </head>
@@ -34,6 +34,26 @@
                 </a>
             @endif
         </div>
+
+        <!-- Student Previous Attempts Section -->
+        @if(auth()->user()->role === 'student' && count($attempts) > 0)
+            <div class="bg-ed-card p-6 rounded-3xl border border-gray-800 mb-8 border-l-4 border-l-ed-green">
+                <h2 class="text-xl font-heading font-bold text-white mb-4">Your Previous Attempts</h2>
+                <div class="space-y-3">
+                    @foreach($attempts as $attempt)
+                        <div class="flex justify-between items-center bg-ed-dark p-4 rounded-xl border border-gray-800">
+                            <div>
+                                <span class="text-gray-400 text-sm">Attempted on: {{ $attempt->created_at->format('M d, Y h:i A') }}</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-ed-green font-bold text-lg">{{ $attempt->score }} / {{ $attempt->total_questions }}</span>
+                                <span class="text-gray-500 text-sm block">Score</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
 
         <h2 class="text-2xl font-heading font-bold text-white mb-6">Course Quiz</h2>
         

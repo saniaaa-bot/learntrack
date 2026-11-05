@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Attempt;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
@@ -39,6 +40,16 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $course->load('questions');
-        return view('courses.show', compact('course'));
+        
+        // Student ke is course ke purane attempts nikaalein
+        $attempts = [];
+        if (Auth::user()->role === 'student') {
+            $attempts = Attempt::where('user_id', Auth::id())
+                                ->where('course_id', $course->id)
+                                ->latest()
+                                ->get();
+        }
+
+        return view('courses.show', compact('course', 'attempts'));
     }
 }
