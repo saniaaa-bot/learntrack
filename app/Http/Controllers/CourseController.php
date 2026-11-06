@@ -41,7 +41,7 @@ class CourseController extends Controller
     {
         $course->load('questions');
         
-        // Student ke is course ke purane attempts nikaalein
+       
         $attempts = [];
         if (Auth::user()->role === 'student') {
             $attempts = Attempt::where('user_id', Auth::id())
